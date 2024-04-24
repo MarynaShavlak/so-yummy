@@ -1,21 +1,32 @@
-import styled from '@emotion/styled';
-import { Container as StyledContainer } from '../common/Container.styled';
+import styled from 'styled-components';
 
-export const Container = styled(StyledContainer)`
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-
-  padding-top: 1px;
-  padding-bottom: 1px;
-
-  @media screen and (min-width: ${props => props.theme.breakpoints[2]}) {
-    justify-content: start;
-  }
-`;
 export const StyledHeader = styled.header`
   position: relative;
-  z-index: 2;
+  z-index: 200;
+  margin-top: 18px;
+  margin-bottom: -58px;
+  @media screen and (min-width: 768px) {
+    margin-bottom: -62px;
+  }
+`;
 
-  padding-top: 18px;
+export const HeaderWrapper = styled.div`
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  width: 100%;
+  @media screen and (min-width: 1280px) {
+    justify-content: normal;
+  }
+`;
+export const UserMenuWrapper = styled.div`
+  display: flex;
+  align-items: center;
+  min-width: 137px;
+  @media screen and (min-width: 768px) {
+    min-width: 183px;
+  }
+  @media screen and (min-width: 1280px) {
+    min-width: 212px;
+  }
 `;

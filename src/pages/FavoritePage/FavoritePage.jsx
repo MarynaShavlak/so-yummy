@@ -1,13 +1,12 @@
-import React from 'react';
+import { Favorite } from "components/Favorite/Favorite";
+import { Main } from "reusableComponents/Main/Main"
+import { GoToTop } from "reusableComponents/ScrollToTop/ScrollToTop";
 
-import FavoriteRecipes from 'components/FavoriteRecipes/FavoriteRecipes';
-import { useScrollToTop } from 'hooks/useScrollToTop';
+const FavoritePage = () => {
+    return <Main>
+        <Favorite />
+        <GoToTop/>
+    </Main>
+};
 
-export default function FavoritePage() {
-  useScrollToTop();
-  return (
-    <>
-      <FavoriteRecipes />
-    </>
-  );
-}
+export default FavoritePage;

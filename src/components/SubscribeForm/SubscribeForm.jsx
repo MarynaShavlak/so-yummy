@@ -1,86 +1,86 @@
-import React, { useState } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
-import { useForm } from 'react-hook-form';
-import { joiResolver } from '@hookform/resolvers/joi';
-import Joi from 'joi';
-
-import Loader from 'components/common/Loader';
-
+import { useDispatch } from 'react-redux';
 import {
-  FooterForm,
-  Form,
-  InputWrapper,
-  Input,
-  SubscribeButton,
-  IconLetter,
-  SubscribeTitle,
+  CallToAction,
+  EmailIcon,
+  HelperText,
+  StyledEmailInput,
+  StyledEmailLabel,
+  StyledSubscribeForm,
+  SubscribeBtn,
+  SubscribeInputWrapper,
   SubscribeText,
-  ErrorMessage,
 } from './SubscribeForm.styled';
-import { subscribeThunk } from 'redux/user/user.thunk';
-import { selectSubscription } from 'redux/user/user.selectors';
+import { Formik } from 'formik';
+import { subscribe } from 'redux/user/userOperations';
+import { toast } from 'react-toastify';
+import { useState } from 'react';
 
-const emailSchema = Joi.object({
-  email: Joi.string()
-    .email({ tlds: { allow: false } })
-    .required(),
-});
-
-export const SubscribeForm = () => {
+export function SubscribeForm() {
   const dispatch = useDispatch();
-  const { isLoading } = useSelector(selectSubscription);
-  const [email, setEmail] = useState('');
+  const [disabled, setDisabled] = useState(true);
 
-  const {
-    register,
-    handleSubmit,
-    reset,
-    formState: { errors },
-  } = useForm({
-    mode: 'all',
-    resolver: joiResolver(emailSchema),
-    defaultValues: {
-      email,
-    },
-  });
+  const validateEmail = (value) => {
+    if (!value.trim()) {
+      setDisabled(true)
+    } else {
+      setDisabled(false)
+    }
+    setDisabled(false)
+    let error;
+    if (!value.trim()) {
+      error = 'Required';
+      setDisabled(true);
+    } else if (!/^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$/i.test(value)) {
+      error = 'Invalid email address';
+    }
+    return error;
+    }
+  
+  const onSubmit = (values, actions) => {
 
-  const onSubmitHandler = async data => {
-    try {
-      await dispatch(subscribeThunk(data)).unwrap();
-      reset();
-    } catch (error) {}
-  };
-
-  const handleChange = event => {
-    setEmail(event.target.value);
+    dispatch(subscribe(values))
+      .unwrap()
+      .then(() => {
+        toast.success(`You subscribed succesfully!`);
+        actions.resetForm();
+      })
+      .catch(error => {
+        if (error === "Request failed with status code 409") {
+          return toast.error(`Email ${values.email} is already in your subscribe list`)
+        };
+        return toast.error('Something went wrong, please try again later!');
+      });
   };
 
   return (
-    <FooterForm>
-      <SubscribeTitle>Subscribe to our Newsletter</SubscribeTitle>
-      <SubscribeText>
-        Subscribe up to our newsletter. Be in touch with latest news and special
-        offers, etc.
-      </SubscribeText>
-
-      <Form onSubmit={handleSubmit(onSubmitHandler)}>
-        <InputWrapper htmlFor="email">
-          <IconLetter />
-
-          <Input
-            id="email"
-            placeholder="Enter your email address"
-            autoComplete="off"
-            {...register('email', {
-              value: email,
-              onChange: e => handleChange(e),
-            })}
-          />
-          {errors.email && <ErrorMessage>{errors.email.message}</ErrorMessage>}
-        </InputWrapper>
-
-        {isLoading ? <Loader /> : <SubscribeButton>Subscribe</SubscribeButton>}
-      </Form>
-    </FooterForm>
+    <Formik
+      initialValues={{ email: '' }}
+      validateOnChange={true}
+      validateOnBlur={false}
+      onSubmit={onSubmit}
+    >
+      {({ errors, touched }) => (
+        <StyledSubscribeForm>
+          <CallToAction>Subscribe to our Newsletter</CallToAction>
+          <SubscribeText>Subscribe up to our newsletter. Be in touch with latest news and special offers, etc.</SubscribeText>
+          <SubscribeInputWrapper>
+            <StyledEmailLabel>
+              <StyledEmailInput
+                name="email"
+                placeholder="Enter your email address"
+                validate={validateEmail}
+                error={errors.email}
+                touched={`${touched.email}`}
+              />
+              <EmailIcon error={errors.email} />
+              {errors.email && touched.email && (
+                <HelperText>{errors.email}</HelperText>
+              )}
+            </StyledEmailLabel>
+            <SubscribeBtn type="submit" disabled={disabled}>Subcribe</SubscribeBtn>
+          </SubscribeInputWrapper>
+        </StyledSubscribeForm>
+      )}
+    </Formik>
   );
-};
+}

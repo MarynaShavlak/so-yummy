@@ -1,22 +1,16 @@
-import styled from '@emotion/styled';
+import styled from "styled-components";
 
 export const Section = styled.section`
-  padding-top: 50px;
+  padding-top: 114px;
   padding-bottom: 100px;
 
-  @media screen and (min-width: ${({ theme }) => theme.breakpoints.tablet}) {
-    padding-top: 72px;
+  @media screen and (min-width: 768px) {
+    padding-top: 136px;
     padding-bottom: 200px;
   }
 
-  @media screen and (min-width: ${({ theme }) => theme.breakpoints.desktop}) {
-    padding-top: 104px;
-  }
-`;
-
-export const SearchedRecipesListWrapper = styled.div`
-  display: flex;
-  flex-direction: column;
-
-  align-items: center;
+  @media screen and (min-width: 1280px) {
+    padding-top: 164px;
+    padding-bottom: 200px;
+  } ;
 `;

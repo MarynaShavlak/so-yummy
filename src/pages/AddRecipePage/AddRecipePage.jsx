@@ -1,34 +1,35 @@
-import AddRecipeForm from 'components/AddRecipeForm/AddRecipeForm';
-import { Container } from 'components/common/Container.styled';
-import PopularRecipes from 'components/PopularRecipes/PopularRecipes';
-import { FlexContainer, MainTitle, Section } from './AddRecipePage.styled';
-import SocialMedia from 'components/SocialMedia/SocialMedia';
-import { useMediaQuery } from 'react-responsive';
-import { Subtitle } from 'components/AddRecipeForm/AddRecipeForm.styled';
-import { useScrollToTop } from 'hooks/useScrollToTop';
+import { MainPageTitle } from 'reusableComponents/ManePageTitle/ManePageTitle';
+import { Background } from 'reusableComponents/Background/Background';
+import { Container } from 'reusableComponents/Container/Container';
+import { Main } from 'reusableComponents/Main/Main';
+import { GoToTop } from 'reusableComponents/ScrollToTop/ScrollToTop';
+import { FollowUs } from 'components/FollowUs/FollowUs';
+import { PopularRecipe } from 'components/PopularRecipe/PopularRecipe';
+import { AddRecipeForm } from 'components/AddRecipeForm/AddRecipeForm';
+import { SecondaryWrapper, Section, WrapperStyled } from './AddRecipePage.styled';
+import { useMediaQuery } from '@mui/material';
 
-export default function AddRecipePage() {
-  useScrollToTop();
-  const isDesktop = useMediaQuery({
-    query: '(min-width: 1440px)',
-  });
+const AddRecipePage = () => {
+  const desktop = useMediaQuery('(min-width: 1280px)');
+  
   return (
-    <Section>
+    <Main>
+      <Background />
       <Container>
-        <MainTitle>Add recipe</MainTitle>
-        <FlexContainer>
-          <AddRecipeForm />
-          <div>
-            {isDesktop && (
-              <div>
-                <Subtitle>Follow us</Subtitle>
-                <SocialMedia variant="greenToBlack" mt="40px" />
-              </div>
-            )}
-            <PopularRecipes />
-          </div>
-        </FlexContainer>
+        <Section>
+          <MainPageTitle title="Add recipe" />
+          <WrapperStyled>
+            <AddRecipeForm />
+            <SecondaryWrapper>
+              {desktop && <FollowUs />}
+              <PopularRecipe />
+            </SecondaryWrapper>
+          </WrapperStyled>
+        </Section>
       </Container>
-    </Section>
+      <GoToTop/>
+    </Main>
   );
-}
+};
+
+export default AddRecipePage;

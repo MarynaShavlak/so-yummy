@@ -1,24 +1,35 @@
-import { configureStore } from '@reduxjs/toolkit';
+import { configureStore } from "@reduxjs/toolkit";
 import {
   persistStore,
+  persistReducer,
   FLUSH,
   REHYDRATE,
   PAUSE,
   PERSIST,
   PURGE,
   REGISTER,
-} from 'redux-persist';
-import { persistedAuthReducer } from './auth/auth.slice';
-import { userReducer } from './user/user.slice';
-import { shoppingListReducer } from './shoppingList/shoppingList.slice';
-import { recipesReducer } from './recipes/recipes.slice';
+} from "redux-persist";
+import storage from "redux-persist/lib/storage";
+import { userReducer } from "./user/userSlice";
+import { recipesReducer } from "./recipes/recipesSlice";
+import { ownRecipesReducer } from "./ownRecipes/ownRecipesSlice";
+import { shoppingListReducer } from "./shoplist/shoplistSlice";
+import { themeReducer } from "./theme/themeSlice";
+
+
+const userConfig = {
+  key: "token",
+  storage,
+  whitelist: ["refreshToken", "accessToken"],
+};
 
 export const store = configureStore({
   reducer: {
-    auth: persistedAuthReducer,
-    user: userReducer,
-    shoppingList: shoppingListReducer,
+    auth: persistReducer(userConfig, userReducer),
     recipes: recipesReducer,
+    ownRecipes: ownRecipesReducer,
+    shoppingList: shoppingListReducer,
+    theme: themeReducer,
   },
   middleware: getDefaultMiddleware =>
     getDefaultMiddleware({
@@ -28,4 +39,4 @@ export const store = configureStore({
     }),
 });
 
-export const persistedStore = persistStore(store);
+export const persistor = persistStore(store);

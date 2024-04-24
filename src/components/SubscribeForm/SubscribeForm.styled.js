@@ -1,222 +1,195 @@
-import styled from '@emotion/styled';
-import { theme } from '../../theme/theme';
-import { FiMail } from 'react-icons/fi';
+import styled from 'styled-components';
+import { FormHelperText } from '@mui/material';
+import { Field, Form } from 'formik';
+import { ReactComponent as EmailSVG } from '../../images/svg/mail.svg';
 
-export const FooterForm = styled.div`
-  margin: 0 auto;
-  height: 84px;
+export const StyledSubscribeForm = styled(Form)`
   display: flex;
   flex-direction: column;
-  gap: 8px;
-  margin-bottom: 44px;
-  @media screen and (min-width: ${theme.breakpoints[1]}) {
-    width: 442px;
-    flex-direction: row;
-    margin-bottom: 0;
-  }
-  @media screen and (min-width: ${theme.breakpoints[2]}) {
-    width: 339px;
-    flex-direction: column;
-    gap: 0;
-  }
-`;
+  width: 204px;
+  color: ${({ theme }) => theme.colors.bgMain};
 
-export const Form = styled.form`
-  margin: 0 auto 44px;
-  display: flex;
-  flex-direction: column;
-
-  @media screen and (min-width: ${theme.breakpoints[1]}) {
+  @media screen and (min-width: 768px) {
     flex-direction: row;
-    height: 50px;
-    margin: 0 auto;
+    width: 100%;
     justify-content: center;
   }
-  @media screen and (min-width: ${theme.breakpoints[2]}) {
+
+  @media screen and (min-width: 1280px) {
     flex-direction: column;
-    margin: 0;
-    height: auto;
-    width: 339px;
-  }
-`;
-
-export const InputWrapper = styled.label`
-  position: relative;
-  margin-bottom: 8px;
-
-  @media screen and (min-width: ${theme.breakpoints[1]}) {
-    height: 50px;
-  }
-
-  @media screen and (min-width: ${theme.breakpoints[2]}) {
-    height: 59px;
-    margin-bottom: 16px;
-  }
-`;
-
-export const Input = styled.input`
-  width: 204px;
-  height: 38px;
-  background-color: transparent;
-  padding: 11.5px 42px;
-
-  color: ${({ theme }) => theme.colors.white[200]};
-
-  font-size: ${({ theme }) => theme.fontSizes[0]};
-  line-height: 1.5;
-  letter-spacing: -0.02em;
-
-  border: 1px solid rgba(250, 250, 250, 0.16);
-
-  border-radius: 6px;
-
-  transition: ${({ theme }) => theme.transitions.create(['border-color'])};
-
-  &::placeholder {
-    color: ${({ theme }) => theme.colors.white[200]};
-
-    font-size: ${({ theme }) => theme.fontSizes[0]};
-    line-height: 1.5;
-  }
-
-  &:focus,
-  &:hover {
-    border: 1px solid ${theme.colors.white[100]};
-    outline: none;
-  }
-
-  @media screen and (min-width: ${theme.breakpoints[1]}) {
-    width: 259px;
-    height: 50px;
-    padding: 15px 30px 15px 50px;
-    margin-right: 12px;
-
-    font-size: ${({ theme }) => theme.fontSizes[2]};
-
-    &::placeholder {
-      font-size: ${({ theme }) => theme.fontSizes[2]};
-    }
-  }
-
-  @media screen and (min-width: ${theme.breakpoints[2]}) {
     width: 338px;
-    height: 59px;
-    padding: 18px 40px 18px 51px;
-    margin-right: 0;
-    margin-bottom: 16px;
+  }
+`;
 
-    font-size: ${({ theme }) => theme.fontSizes[4]};
+export const CallToAction = styled.strong`
+      display: none;
 
-    &::placeholder {
-      font-size: ${({ theme }) => theme.fontSizes[4]};
+    @media screen and (min-width: 1280px) {
+      display: block;
+      font-weight: 700;
+      font-size: 18px;
+      line-height: 1.5;
+      margin-bottom: 14px;
+      color: ${props => props.theme.colors.bgMain};
     }
-  }
-`;
-
-export const IconLetter = styled(FiMail)`
-  position: absolute;
-  left: 14px;
-  top: 11px;
-  width: 20px;
-  height: 16px;
-
-  color: ${({ theme }) => theme.colors.white[200]};
-
-  @media screen and (min-width: ${theme.breakpoints[1]}) {
-    left: 15px;
-    top: 13px;
-    height: 22px;
-    width: 26px;
-  }
-
-  @media screen and (min-width: ${theme.breakpoints[2]}) {
-    left: 15.5px;
-    top: 19px;
-  }
-
-  &:hover,
-  &:focus {
-    color: ${({ theme }) => theme.colors.white[100]};
-  }
-`;
-
-export const SubscribeButton = styled.button`
-  width: 204px;
-  height: 38px;
-  margin: 0 auto;
-  padding-top: 11px;
-  padding-bottom: 11px;
-
-  color: ${({ theme }) => theme.colors.white[200]};
-  background-color: ${({ theme }) => theme.colors.green[200]};
-
-  border-radius: 6px;
-
-  transition: ${({ theme }) => theme.transitions.create(['color'])};
-
-  &:focus,
-  &:hover {
-    color: ${({ theme }) => theme.colors.black[400]};
-    cursor: pointer;
-  }
-
-  font-size: ${({ theme }) => theme.fontSizes[2]};
-  line-height: 1.14;
-
-  @media screen and (min-width: ${theme.breakpoints[1]}) {
-    width: 171px;
-    height: 50px;
-    padding-top: 16px;
-    padding-bottom: 16px;
-    font-size: ${({ theme }) => theme.fontSizes[3]};
-    line-height: ${({ theme }) => theme.fontSizes[4]};
-    margin: 0;
-  }
-  @media screen and (min-width: ${theme.breakpoints[2]}) {
-    width: 100%;
-    height: 60px;
-    padding-top: 21px;
-    padding-bottom: 21px;
-  }
-`;
-
-export const SubscribeTitle = styled.h3`
-  display: none;
-
-  @media screen and (min-width: ${theme.breakpoints[2]}) {
-    display: block;
-    font-weight: ${({ theme }) => theme.fontWeights.bold};
-    font-size: ${({ theme }) => theme.fontSizes[4]};
-    line-height: 1.5;
-    color: ${({ theme }) => theme.colors.white[200]};
-
-    margin-bottom: 14px;
-  }
 `;
 
 export const SubscribeText = styled.p`
-  display: none;
+    display: none;
 
-  @media screen and (min-width: ${theme.breakpoints[2]}) {
-    display: block;
+    @media screen and (min-width: 1280px) {
+      display: block;
+      font-weight: 400;
+      font-size: 14px;
+      line-height: 1.29;
+      letter-spacing: -0.02em;
+      margin-bottom: 28px;
+      color: ${props => props.theme.colors.bgMain};
+    }
+`;
 
-    font-size: ${({ theme }) => theme.fontSizes[2]};
-    line-height: 1.28;
-    letter-spacing: -0.02em;
-    color: ${({ theme }) => theme.colors.white[200]};
-    margin: 0px;
-    margin-bottom: 28px;
+export const SubscribeInputWrapper = styled.div`
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+
+  @media screen and (min-width: 768px) {
+    flex-direction: row;
+    gap: 12px;
+  }
+
+  @media screen and (min-width: 1280px) {
+    flex-direction: column;
+    gap: 16px;
   }
 `;
 
-export const ErrorMessage = styled.p`
-  margin-top: 6px;
-  font-size: ${({ theme }) => theme.fontSizes[0]};
-  color: ${({ theme }) => theme.colors.red[100]};
+export const StyledEmailLabel = styled.label`
+  position: relative;
+`;
 
-  @media screen and (min-width: ${theme.breakpoints[2]}) {
-    font-size: ${({ theme }) => theme.fontSizes[1]};
+export const StyledEmailInput = styled(Field)`
+  display: inline-block;
+  width: 100%;
+  padding-left: 42px;
+  height: 38px;
+  
+  font-weight: 400;
+  font-size: 10px;
+  line-height: 1.5;
+  letter-spacing: -0.02em;
+  color: ${({ theme }) => theme.colors.bgMain};
+  background-color: transparent;
+  border: 1px solid rgba(250, 250, 250, 0.16);
+  border-radius: 6px;
+  transition: border-color ${props => props.theme.hover.transition};
+
+  &::placeholder {
+    color: ${({ theme }) => theme.colors.bgMain};
+  };
+
+  &:hover,
+  :focus,
+  :focus-visible {
+    border-color: rgba(250, 250, 250);
+    outline: none;
+  };
+
+  &:not(:placeholder-shown) { 
+    border-color: ${props => (props.error ? '#e74a3b' : 'rgba(250, 250, 250)')};
+  }
+
+  @media screen and (min-width: 768px) {
+    padding-left: 51px;
+    width: 259px;
+    height: 50px;
+    font-size: 14px;
+  };
+
+  @media screen and (min-width: 1280px) {
+    height: 59px;
+    width: 338px;
+    font-size: 18px;
+  }
+`;
+
+export const EmailIcon = styled(EmailSVG)`
+  position: absolute;
+  top: 50%;
+  left: 14px;
+  transform: translateY(-50%);
+  width: 16px;
+  height: 12px;
+
+  & path {
+    stroke: ${props => (props.error ? '#E74A3B' : '#fafafa')};
+  }
+  
+  @media screen and (min-width: 768px) {
+    width: 20px;
+    height: 16px;
+    left: 15px;
+  }
+`;
+
+export const SubscribeBtn = styled.button`
+  text-align: center;
+  padding: 11px;
+  background-color: ${props => props.theme.button.background};
+  border: none;
+  border-radius: 6px;
+
+  font-weight: 400;
+  font-size: 14px;
+  line-height: 1.14;
+  color: ${props => props.theme.colors.bgMain};
+  transition: color ${props => props.theme.hover.transition};
+
+  &:hover,
+  :focus {
+    color: ${({ theme }) => theme.button.accent};
+  }
+
+  &:disabled {
+    background-color: ${props => props.theme.colors.grey};
+    color: ${props => props.theme.text.favorite};
+    cursor: not-allowed;
+  }
+
+  @media screen and (min-width: 768px) {
+    font-size: 16px;
+    line-height: 1.12;
+    padding: 16px 50px;
+  }
+  @media screen and (min-width: 1280px) {
+    padding: 21px;
+    height: 60px;
+  }
+`;
+
+export const HelperText = styled(FormHelperText)`
+  &.MuiFormHelperText-root {
     position: absolute;
-    top: -22px;
+    top: -14px;
+    display: block;
+    font-family: 'Poppins', sans-serif;
+    font-weight: 400;
+    font-size: 8px;
+    line-height: 1.5;
+    text-align: center;
+    padding-left: 42px;
+    color: ${props => props.theme.colors.error};
+
+    @media screen and (min-width: 768px) {
+      top: -18px;
+      font-size: 12px;
+      padding-left: 51px;
+    }
+
+    @media screen and (min-width: 1280px) {
+      top: -20px;
+      font-size: 12px;
+      padding-left: 51px;
+    }
   }
 `;

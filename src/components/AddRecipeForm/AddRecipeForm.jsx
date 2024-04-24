@@ -1,256 +1,127 @@
-import { useState } from 'react';
+import React, { useEffect } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
-import { useMediaQuery } from 'react-responsive';
+import { useForm } from 'react-hook-form';
+import { getAllCategories, getIngredients } from 'redux/recipes/recipesOperations';
+import { addOwnRecipe } from 'redux/ownRecipes/ownRecipesOperations';
 import { toast } from 'react-toastify';
-import { useForm, useFieldArray, Controller } from 'react-hook-form';
+import { selectCategoryList, selectIngredients } from 'redux/selectors';
+import { RecipeDescriptionFields } from './RecipeDescriptionFields/RecipeDescriptionFields';
+import { RecipePreparationFields } from './RecipePreparationFields/RecipePreparationFields';
+import { SubmitButton } from './AddRecipeForm.styled';
+import { RecipeIngredientsFields } from './RecipeIngredientsFields/RecipeIngredientFields';
+import * as Yup from 'yup';
 import { yupResolver } from '@hookform/resolvers/yup';
 
-import { addRecipeService } from 'services/recipe.service';
-import useLocalStorage from 'hooks/useLocalStorage';
-import { storage } from 'constants/storageKeys';
-import { theme } from 'theme';
-import { routes } from '../../constants/routes';
-import { schema } from './schema';
 
-import { Measure } from './Selects/Measure/Mesure';
-import { Category } from './Selects/Category/Category';
-import { Time } from './Selects/Time/Time';
-import { Ingredient } from './Selects/Ingredient/Ingredient';
-import File from './Inputs/File';
-import Text from './Inputs/Text';
-import Textarea from './Textarea/Textarea';
-import Counter from './Counter/Counter';
-import { MainButton } from 'components/common/FigureButton.styled';
-import Loader from 'components/common/Loader';
-import {
-  Border,
-  Close,
-  CloseButton,
-  ErrorMessage,
-  FlexContainer,
-  IngredientsError,
-  LoaderContainer,
-  MediaContainer,
-  SelectContainer,
-  Subtitle,
-  TextLabel,
-  TitleContainer,
-  UtilContainer,
-} from './AddRecipeForm.styled';
-
-export default function AddRecipeForm() {
-  const isTablet = useMediaQuery({
-    query: `(min-width: calc(${theme.breakpoints[1]} - 1px))`,
+  const validationSchema = Yup.object({
+    fullImage: Yup.mixed()
+      .test('required', "Required", value => value && value.length)
+      .test("fileSize", "The file is too large", (value, context) => {
+        return value && value[0] && value[0].size <= 41943040;
+      })
+      .test(
+        'fileType',
+        'Only image files are allowed',
+        value => value =>
+          !value ||
+          ['image/jpg', 'image/jpeg', 'image/png'].includes(value.type)
+      ),
+    title: Yup.string().required('Required'),
+    description: Yup.string().required('Required'),
+    category: Yup.string().required('Required'),
+    time: Yup.string().required('Required'),
+    ingredients: Yup.array().of(Yup.object({
+      _id: Yup.string().required('Required'),
+      measure: Yup.string().required('Required'),
+      quantity: Yup.number('Required').typeError('Required').positive('Not positive').required('Required')
+    })).required(),
+    instructions: Yup.string().required('Required'),
   });
 
+export const AddRecipeForm = () => {
   const navigate = useNavigate();
-
-  const [isLoading, setIsLoading] = useState(false);
-  const [thumb, setFile] = useState('');
-  const [title, setTitle] = useLocalStorage(storage.TITLE, '');
-  const [description, setDescription] = useLocalStorage(
-    storage.DESCRIPTION,
-    ''
-  );
-  const [instructions, setInstructions] = useLocalStorage(
-    storage.INSTRUCTIONS,
-    ''
-  );
+  const dispatch = useDispatch();
+  const categories = useSelector(selectCategoryList);
+  const ingredients = useSelector(selectIngredients);
 
   const {
-    register,
     handleSubmit,
+    register,
     control,
-    formState: { errors },
+    watch,
+    formState: { errors},
   } = useForm({
-    mode: 'all',
-    resolver: yupResolver(schema),
+    mode: 'onTouched',
+    resolver: yupResolver(validationSchema),
     defaultValues: {
-      thumb,
-      title,
-      description,
-      category: 'Breakfast',
-      time: '5',
-      ingredients: [{ id: '', measure: '' }],
-      instructions,
+      fullImage: '',
+      title: '',
+      description: '',
+      category: '',
+      time: '',
+      ingredients: [],
+      instructions: [],
     },
   });
 
-  const { fields, append, remove } = useFieldArray({
-    control,
-    name: 'ingredients',
-  });
+  const onSubmit = data => {
+    const { fullImage, ingredients, instructions } = data;
+    const recipe = {
+      ...data,
+      fullImage: fullImage[0],
+      instructions: instructions.split('\n').join(', '),
+      ingredients:
+        JSON.stringify(
+        ingredients.map(({ _id, measure, quantity }) => {
+          return {
+            id: _id,
+            measure: quantity + measure,
+          };
+        })
+      ),
+    };
 
-  const onSubmitHandler = async data => {
-    try {
-      setIsLoading(true);
-      const formData = new FormData();
-      formData.append('thumb', data.thumb[0]);
-      formData.append('title', data.title);
-      formData.append('description', data.description);
-      formData.append('category', data.category);
-      formData.append('time', data.time);
-      formData.append('ingredients', JSON.stringify(data.ingredients));
-      formData.append('instructions', data.instructions);
-
-      await addRecipeService(formData);
-
-      toast.success('Recipe added to your collection');
-
-      localStorage.removeItem(storage.TITLE);
-      localStorage.removeItem(storage.DESCRIPTION);
-      localStorage.removeItem(storage.INSTRUCTIONS);
-
-      navigate(routes.MY_RECIPES_PAGE);
-    } catch (error) {
-      toast.error(error.message);
-    } finally {
-      setIsLoading(false);
-    }
+    const formData = new FormData();
+    Object.keys(recipe).forEach(key => {
+          formData.append(key, recipe[key]);
+        });
+    
+    dispatch(addOwnRecipe(formData))
+      .then(res => navigate('/my'))
+      .catch(() => toast.error('Something went wrong. Please, try again later'));
   };
 
+
+  useEffect(() => {
+    dispatch(getAllCategories());
+    dispatch(getIngredients());
+  }, [dispatch]);
+
+
   return (
-    <form onSubmit={handleSubmit(onSubmitHandler)}>
-      <MediaContainer>
-        <File
-          register={register}
-          setFile={setFile}
-          errors={errors}
-          thumb={thumb}
-        />
-
-        <div>
-          <Text
-            errors={errors}
-            register={register}
-            setValue={setTitle}
-            field="title"
-            placeholder="Enter item title"
-          />
-          <Text
-            errors={errors}
-            register={register}
-            setValue={setDescription}
-            field="description"
-            placeholder="Enter about recipe"
-          />
-          <TextLabel>
-            Category
-            <SelectContainer>
-              <Controller
-                name="category"
-                control={control}
-                render={({ field: { onChange, value, name } }, ref) => (
-                  <Category
-                    onChange={onChange}
-                    value={value}
-                    name={name}
-                    ref={ref}
-                  />
-                )}
-              />
-            </SelectContainer>
-            <Border />
-            {errors.category && (
-              <ErrorMessage>{errors.category?.message}</ErrorMessage>
-            )}
-          </TextLabel>
-
-          <TextLabel>
-            Cooking time
-            <SelectContainer>
-              <Controller
-                name="time"
-                control={control}
-                render={({ field: { onChange, value, name } }, ref) => (
-                  <Time
-                    ref={ref}
-                    onChange={onChange}
-                    name={name}
-                    value={value}
-                  />
-                )}
-              />
-            </SelectContainer>
-            <Border />
-            {errors.time && <ErrorMessage>{errors.time?.message}</ErrorMessage>}
-          </TextLabel>
-        </div>
-      </MediaContainer>
-
-      <TitleContainer>
-        <Subtitle>Ingredients</Subtitle>
-        <Counter fields={fields} remove={remove} append={append} />
-      </TitleContainer>
-
-      {fields.map((field, index) => (
-        <FlexContainer key={field.id}>
-          <Controller
-            name={`ingredients.${index}.id`}
-            control={control}
-            render={({ field: { onChange, value, name } }, ref) => (
-              <Ingredient
-                ref={ref}
-                onChange={onChange}
-                value={value}
-                name={name}
-              />
-            )}
-          />
-          <Controller
-            name={`ingredients.${index}.measure`}
-            control={control}
-            render={({ field: { onChange, value, name } }, ref) => (
-              <Measure
-                name={name}
-                ref={ref}
-                onChange={selectedOption => {
-                  onChange(selectedOption);
-                }}
-                value={value}
-              />
-            )}
-          />
-          <CloseButton
-            disabled={fields.length <= 1}
-            onClick={() => remove(index)}
-          >
-            <Close />
-          </CloseButton>
-        </FlexContainer>
-      ))}
-      {errors.ingredients && (
-        <IngredientsError>
-          {fields.length === 1
-            ? 'add at least one ingredient and measure to your recipe'
-            : 'choose ingredients and measure or remove extra fields'}
-        </IngredientsError>
-      )}
-      <UtilContainer>
-        <Subtitle>Recipe preparation</Subtitle>
-      </UtilContainer>
-      <Textarea
+    <form onSubmit={handleSubmit(onSubmit)}>
+      <RecipeDescriptionFields
         errors={errors}
         register={register}
-        setInstructions={setInstructions}
+        categories={categories}
+        control={control}
       />
-      {isLoading ? (
-        <LoaderContainer>
-          <Loader />
-        </LoaderContainer>
-      ) : (
-        <>
-          {isTablet ? (
-            <MainButton variant="dark" w="161px" p="14px 64px">
-              Add
-            </MainButton>
-          ) : (
-            <MainButton variant="dark" w="129px" p="12px 48px">
-              Add
-            </MainButton>
-          )}
-        </>
-      )}
+      <RecipeIngredientsFields
+        errors={errors}
+        register={register}
+        control={control}
+        ingredients={ingredients}
+        watch={watch}
+      />
+      <RecipePreparationFields
+        register={register}
+        control={control}
+        errors={errors}
+      />
+      <SubmitButton type="submit" className="submitBtn">
+        Add
+      </SubmitButton>
     </form>
   );
-}
+};

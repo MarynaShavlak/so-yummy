@@ -1,100 +1,144 @@
-import styled from '@emotion/styled';
-import { ReactComponent as CloseBtnSvg } from '../../../images/close-popup-btn.svg';
+import styled from 'styled-components';
+import { Backdrop } from '@mui/material';
+import spinachBottomMobile1x from '../../../images/menu/spinachMenu-mobile@1x.png';
+import spinachBottomMobile2x from '../../../images/menu/spinachMenu-mobile@2x.png';
+import spinachBottomTablet1x from '../../../images/menu/spinachMenu-tablet@1x.png';
+import spinachBottomTablet2x from '../../../images/menu/spinachMenu-tablet@2x.png';
+import { ReactComponent as CloseIcon } from "../../../images/svg/x.svg";
 
-import SpinachMobile1x from '../../../images/spinach-main-bg/spinach-popup-mobile-1x.webp';
-import SpinachMobile2x from '../../../images/spinach-main-bg/spinach-popup-mobile-2x.webp';
-import SpinachTablet1x from '../../../images/spinach-main-bg/spinach-popup-tablet-1x.webp';
-import SpinachTablet2x from '../../../images/spinach-main-bg/spinach-popup-tablet-2x.webp';
+export const BurgerMenuButton = styled.button`
+  display: block;
+  width: 28px;
+  height: 28px;
 
-export function CloseBtn({ onClose }) {
-  return (
-    <CloseButton onClick={onClose}>
-      <CloseBtnSvg width={32} height={32} />
-    </CloseButton>
-  );
-}
+  border: none;
+  background-color: transparent;
 
-export const Wrapper = styled.div`
-  position: relative;
-  width: 100vw;
-  height: 100vh;
-  padding: 18px 16px;
+  &:hover,
+   :focus {
+    & svg {
+      stroke: ${props => props.theme.colors.green};
+    }
+   }
+
+  @media screen and (min-width: 768px) {
+    width: 32px;
+    height: 32px;
+  }
+`;
+
+export const SvgIcon = styled.svg`
+  width: 28px;
+  height: 28px;
+  stroke: ${props => props.light ? props.theme.colors.black : props.theme.text.hero};
+  transition: stroke ${props => props.theme.hover.transition};
+
+  @media screen and (min-width: 768px) {
+    width: 32px;
+    height: 32px;
+  }
+`;
+
+export const StyledBackdrop = styled(Backdrop)`
+  &.MuiBackdrop-root {
+    background-color: ${({ theme }) => theme.colors.burger};
+  }
+`;
+export const BurgerMenuWrapper = styled.div`
+  position: absolute;
   display: flex;
   flex-direction: column;
-  align-items: center;
-  justify-content: center;
-
-  background-color: ${props => props.theme.colors.green[100]};
-  background-image: url('${SpinachMobile1x}');
-  background-repeat: no-repeat;
-
-  background-position: right -250px bottom -70px;
-  background-size: 550px 360px;
-  @media screen and (min-device-pixel-ratio: 2),
-    (min-resolution: 192dpi),
-    (min-resolution: 2dppx) {
-    background-image: url('${SpinachMobile2x}');
-  }
-  @media screen and (min-width: ${props => props.theme.breakpoints[1]}) {
-    padding: 18px 32px;
-    background-image: url('${SpinachTablet1x}');
-    background-position: right -380px bottom -310px;
-    background-size: 940px 700px;
-    @media screen and (min-device-pixel-ratio: 2),
-      (min-resolution: 192dpi),
-      (min-resolution: 2dppx) {
-      background-image: url('${SpinachTablet2x}');
-    }
+  justify-content: space-between;
+  width: 100%;
+  height: 100%;
+  padding: 18px 16px;
+  @media screen and (min-width: 768px) {
+    padding: 18px 32px 32px;
   }
 `;
 
-const CloseButton = styled.button`
-  display: block;
-  position: absolute;
-  border: none;
-  margin: 0;
-  padding: 0;
-  width: auto;
-  background-color: transparent;
-  color: inherit;
-  font: inherit;
-  line-height: normal;
-  text-align: inherit;
-  text-decoration: none;
-  cursor: pointer;
-
-  top: 22px;
-  right: 16px;
-
-  @media screen and (min-width: ${props => props.theme.breakpoints[1]}) {
-    top: 24px;
-    right: 32px;
-  }
-`;
-
-export const LogoWrapper = styled.div`
+export const HeadWrapper = styled.div`
   display: flex;
   align-items: center;
-  position: absolute;
-  top: 22px;
-  left: 16px;
-
-  @media screen and (min-width: ${props => props.theme.breakpoints[1]}) {
-    top: 18px;
-    right: 32px;
+  justify-content: space-between;
+  width: 100%;
+  height: 40px;
+  @media screen and (min-width: 768px) {
+    height: 44px;
   }
 `;
 
-export const ThemeTogglerWrapper = styled.div`
-  display: none;
-  align-items: center;
+export const CloseButton = styled.button`
+  display: block;
+  width: 32px;
+  height: 32px;
+
+  border: none;
+  background-color: transparent;
+
+  & svg path{
+    transition: stroke ${props => props.theme.hover.transition};
+    stroke: ${props => props.theme.text.main};
+    box-shadow: ${props => props.theme.hover.boxShadow};
+  }
+
+    &:hover,
+     :focus {
+      & svg path{
+      stroke: ${props => props.theme.colors.green};
+    }}
+`;
+
+export const IconClose = styled(CloseIcon)`
+  display: block;
+  width: 28px;
+  height: 28px;
+
+    & path {
+    transition: stroke ${props => props.theme.hover.transition};
+    stroke: ${props => props.theme.text.main};
+
+    &:hover,
+     :focus {
+      stroke: ${props => props.theme.colors.green};
+    }
+  }
+
+  @media screen and (min-width: 768px) {
+    width: 32px;
+    height: 32px;
+  }
+`;
+
+export const SpinachBottom = styled.div`
+  pointer-events: none;
   position: absolute;
+  right: 0;
+  bottom: 0;
+  width: 312px;
+  height: 334px; 
+  background-image: url(${spinachBottomMobile1x});
+  filter: blur(4.5px);
+  background-repeat: no-repeat;
+  background-size: cover;
+    
+  @media screen and (min-device-pixel-ratio: 2),
+    screen and (min-resolution: 192dpi),
+    screen and (min-resolution: 2dppx) {
+    background-image: url(${spinachBottomMobile2x});
+  }
 
-  bottom: 18px;
-  left: 16px;
+  @media screen and (min-width: 768px) {
+    width: 582px;
+    height: 496px; 
+    background-image: url(${spinachBottomTablet1x});
+    background-repeat: no-repeat;
+    background-size: cover;
 
-  @media screen and (min-width: ${props => props.theme.breakpoints[1]}) {
-    bottom: 32px;
-    left: 32px;
+      @media screen and (min-device-pixel-ratio: 2),
+      screen and (min-resolution: 192dpi),
+      screen and (min-resolution: 2dppx) {
+        background-image: url(${spinachBottomTablet2x});
+      }
   }
 `;

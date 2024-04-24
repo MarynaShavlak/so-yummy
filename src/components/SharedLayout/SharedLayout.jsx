@@ -1,14 +1,19 @@
-import Header from '../Header';
-import { Footer } from '../../components/Footer/Footer';
-import MainSection from 'components/common/Main/Main';
-import { SharedLayoutContainer } from './SharedLayout.styled';
+import { Suspense } from 'react';
+import { Outlet } from 'react-router-dom';
+import { Loader } from 'reusableComponents/Loader/Loader';
+import { Footer } from 'components/Footer/Footer';
+import { Header } from 'components/Header/Header';
 
-export default function SharedLayout() {
+function SharedLayout() {
   return (
-    <SharedLayoutContainer>
+    <>
       <Header />
-      <MainSection />
+      <Suspense fallback={<Loader />}>
+        <Outlet />
+      </Suspense>
       <Footer />
-    </SharedLayoutContainer>
+    </>
   );
 }
+
+export default SharedLayout;
