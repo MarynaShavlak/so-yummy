@@ -1,4 +1,3 @@
-
 //user
 export const selectUser = state => state.auth.user;
 
@@ -23,26 +22,30 @@ export const selectCategoryList = state => state.recipes.categoryList;
 
 export const selectMainPageRecipes = state => state.recipes.mainPageRecipes;
 
-export const selectFavoriteRecipes = state => state.recipes.favoriteRecipes.recipes;
+export const selectFavoriteRecipes = state =>
+  state.recipes.favoriteRecipes.recipes;
 
-export const selectFavoriteRecipesTotal = state => state.recipes.favoriteRecipes.total;
+export const selectFavoriteRecipesTotal = state =>
+  state.recipes.favoriteRecipes.total;
 
 export const selectFavoriteRecipesTotalPages = state => {
-    return Math.ceil(state.recipes.favoriteRecipes.total / state.recipes.favoriteRecipes.limit);
+  return Math.ceil(
+    state.recipes.favoriteRecipes.total / state.recipes.favoriteRecipes.limit
+  );
 };
 
 //Search Page selectors
 
-export const selectSearchRecipes = (state) => state.recipes.searchRecipes;
+export const selectSearchRecipes = state => state.recipes.searchRecipes;
 
-export const selectTotalSearchRecipes = (state) => state.recipes.searchRecipes.total;
+export const selectTotalSearchRecipes = state =>
+  state.recipes.searchRecipes.total;
 
-export const selectLimitSearchRecipes = (state) => state.recipes.searchRecipes.limit;
+export const selectLimitSearchRecipes = state =>
+  state.recipes.searchRecipes.limit;
 //
 
-
-export const selectLoadingRecipes = (state) => state.recipes.isLoading;
-
+export const selectLoadingRecipes = state => state.recipes.isLoading;
 
 //ingredients
 export const selectIngredients = state => state.recipes.ingredientsList;
@@ -52,9 +55,8 @@ export const selectShoppingList = state => state.shoppingList.products;
 
 export const selectShoppingIsLoading = state => state.shoppingList.isLoading;
 
-
 //choosed recipe
-export const selectChoosedRecipe = state => state.recipes.choosedRecipe;
+export const selectChosenRecipe = state => state.recipes.choosedRecipe;
 
 // myRecipe
 
@@ -63,5 +65,5 @@ export const selectMyRecipes = state => state.ownRecipes.recipes;
 export const selectIsLoadingMyRecipes = state => state.ownRecipes.isLoading;
 
 export const selectTotalPageRecipe = state => {
-    return Math.ceil(state.ownRecipes.total / 4);
+  return Math.ceil(state.ownRecipes.total / 4);
 };

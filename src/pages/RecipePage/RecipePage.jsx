@@ -1,25 +1,25 @@
-import { useEffect } from "react";
-import { useParams } from "react-router";
-import { useLocation } from "react-router-dom";
-import { useDispatch, useSelector } from "react-redux";
-import { selectChoosedRecipe } from "../../redux/selectors";
-import { fetchShoppingList } from "../../redux/shoplist/shoplistOperation";
-import { getRecipeById } from "redux/recipes/recipesOperations";
-import { getOwnRecipeById } from "redux/ownRecipes/ownRecipesOperations";
-import { Main } from "reusableComponents/Main/Main";
-import { GoToTop } from "reusableComponents/ScrollToTop/ScrollToTop";
-import { Background } from "reusableComponents/Background/Background";
-import { Container } from "reusableComponents/Container/Container";
-import { RecipeIngredientsList } from "../../components/Recipe/RecipeIngredientsList/RecipeIngredientsList";
-import { RecipePageHero } from "../../components/Recipe/RecipePageHero/RecipePageHero";
-import { RecipePreparation } from "../../components/Recipe/RecipePreparation/RecipePreparation";
-import { Section } from "./RecipePage.styled";
+import { useEffect } from 'react';
+import { useParams } from 'react-router';
+import { useLocation } from 'react-router-dom';
+import { useDispatch, useSelector } from 'react-redux';
+import { selectChosenRecipe } from '../../redux/selectors';
+import { fetchShoppingList } from '../../redux/shoplist/shoplistOperation';
+import { getRecipeById } from 'redux/recipes/recipesOperations';
+import { getOwnRecipeById } from 'redux/ownRecipes/ownRecipesOperations';
+import { Main } from 'reusableComponents/Main/Main';
+import { GoToTop } from 'reusableComponents/ScrollToTop/ScrollToTop';
+import { Background } from 'reusableComponents/Background/Background';
+import { Container } from 'reusableComponents/Container/Container';
+import { RecipeIngredientsList } from '../../components/Recipe/RecipeIngredientsList/RecipeIngredientsList';
+import { RecipePageHero } from '../../components/Recipe/RecipePageHero/RecipePageHero';
+import { RecipePreparation } from '../../components/Recipe/RecipePreparation/RecipePreparation';
+import { Section } from './RecipePage.styled';
 
 const RecipePage = () => {
   const location = useLocation();
   const dispatch = useDispatch();
   const { id } = useParams();
- 
+
   const {
     description,
     ingredients,
@@ -29,8 +29,8 @@ const RecipePage = () => {
     title,
     _id,
     favorite,
-    youtube
-  } = useSelector(selectChoosedRecipe);
+    youtube,
+  } = useSelector(selectChosenRecipe);
 
   useEffect(() => {
     dispatch(fetchShoppingList());
@@ -40,7 +40,6 @@ const RecipePage = () => {
       dispatch(getRecipeById(id));
     }
   }, [dispatch, id, location?.state?.from.pathname]);
-
 
   return (
     <Main>

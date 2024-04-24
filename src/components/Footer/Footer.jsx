@@ -42,7 +42,7 @@ export function Footer() {
 
       <Container>
         <SecondaryWrapper>
-          <CopyrightInfo>© 2023 All Rights Reserved.</CopyrightInfo>
+          <CopyrightInfo>© 2024 All Rights Reserved.</CopyrightInfo>
           <TermsInfo>Terms of Service</TermsInfo>
         </SecondaryWrapper>
       </Container>
