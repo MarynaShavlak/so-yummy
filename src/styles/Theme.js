@@ -2,8 +2,7 @@ import { useSelector } from 'react-redux';
 import { selectThemeIsLight } from 'redux/theme/themeSelectors';
 import { ThemeProvider } from 'styled-components';
 
-const setTheme = (isLight) => {
-
+const setTheme = isLight => {
   return {
     colors: {
       background: `${isLight ? '#fafafa' : '#1E1F28'}`,
@@ -12,7 +11,9 @@ const setTheme = (isLight) => {
       footer: `${isLight ? '#22252A' : '#8BAA36'}`,
       burger: `${isLight ? '#EBF3D4' : '#1E1F28'}`,
       accent: `${isLight ? '#8BAA36' : '#22252A'}`,
-      checkBox: `${isLight ? 'rgba(126, 126, 126, 0.5)' : 'rgba(250, 250, 250, 0.5)'}`,
+      checkBox: `${
+        isLight ? 'rgba(126, 126, 126, 0.5)' : 'rgba(250, 250, 250, 0.5)'
+      }`,
       ingredients: `${isLight ? '#EBF3D4' : '#2A2C36'}`,
       white: '#ffffff',
       bgMain: '#fafafa',
@@ -21,10 +22,11 @@ const setTheme = (isLight) => {
       green: '#8BAA36',
       black: '#22252A',
       error: '#E74A3B',
+      userText: `${isLight ? '#22252A' : '#ffffff'}`,
     },
 
     button: {
-      text: `${isLight ? '#fafafa' : '#8BAA36'}`, 
+      text: `${isLight ? '#fafafa' : '#8BAA36'}`,
       accent: `${isLight ? '#22252A' : '#8BAA36'}`,
       textToDark: `${isLight ? '#fafafa' : '#22252A'}`,
       delete: `${isLight ? '#EBF3D4' : '#1E1F28'}`,
@@ -32,9 +34,9 @@ const setTheme = (isLight) => {
     },
 
     follow: {
-      main: `${isLight ? '#8BAA36' : '#FAFAFA'}`, 
-      bgMain: `${isLight ? '#8BAA36' : 'none'}`, 
-      hover: `${isLight ? '#FAFAFA' : '#8BAA36'}`, 
+      main: `${isLight ? '#8BAA36' : '#FAFAFA'}`,
+      bgMain: `${isLight ? '#8BAA36' : 'none'}`,
+      hover: `${isLight ? '#FAFAFA' : '#8BAA36'}`,
       hoverFooter: `${isLight ? '#fafafa' : '#22252A'}`,
     },
 
@@ -42,16 +44,20 @@ const setTheme = (isLight) => {
       background: `${isLight ? '#ffffff' : '#8BAA36'}`,
       scroll: `${isLight ? '#E7E5E5' : '#1E1F28'}`,
       option: `${isLight ? 'rgba(0, 0, 0, 0.5)' : 'rgba(250, 250, 250, 0.5)'}`,
-      selected: `${isLight ? 'white' : 'transparent'}`, 
-      selectedText: `${isLight ? '#8BAA36' : '#FAFAFA'}`, 
-      focus: `${isLight ? '#EBF3D4' : 'transparent'}`, 
+      selected: `${isLight ? 'white' : 'transparent'}`,
+      selectedText: `${isLight ? '#8BAA36' : '#FAFAFA'}`,
+      focus: `${isLight ? '#EBF3D4' : 'transparent'}`,
     },
 
     pagination: {
       selected: `${isLight ? '#EBF3D4' : '#8BAA36'}`,
-      shadow: `${isLight ? 'rgba(135, 135, 135, 0.2)' : 'rgba(31, 30, 30, 0.2)'}`,
-      text: `${isLight ? '#656565' : 'rgba(255, 255, 255, 0.6)'}`, 
-      arrow: `${isLight ? 'rgba(169, 169, 169, 0.73)' : 'rgba(255, 255, 255, 0.6)'}`, 
+      shadow: `${
+        isLight ? 'rgba(135, 135, 135, 0.2)' : 'rgba(31, 30, 30, 0.2)'
+      }`,
+      text: `${isLight ? '#656565' : 'rgba(255, 255, 255, 0.6)'}`,
+      arrow: `${
+        isLight ? 'rgba(169, 169, 169, 0.73)' : 'rgba(255, 255, 255, 0.6)'
+      }`,
     },
 
     text: {
@@ -66,15 +72,15 @@ const setTheme = (isLight) => {
       preparation: `${isLight ? 'rgba(0, 0, 0, 0.8)' : '#fafafa'}`,
       title: `${isLight ? '#001833' : '#fafafa'}`,
       paginationText: `${isLight ? '#656565' : 'rgba(255, 255, 255, 0.6)'}`,
-      dark: '#23262A', 
+      dark: '#23262A',
       favorite: '#23262A',
       primary: '#3E4462',
       accent: '#8BAA36',
-      white: '#fafafa'
+      white: '#fafafa',
     },
     letterSpacings: {
-      base: "-0.02em",
-      mainHeading: "-0.005em",
+      base: '-0.02em',
+      mainHeading: '-0.005em',
     },
     fontWeights: {
       regular: 400,
@@ -83,28 +89,28 @@ const setTheme = (isLight) => {
       bold: 700,
     },
     border: {
-      grey: `${isLight ? '#E0E0E0' : "rgba(250, 250, 250, 0.3)"}`,
-      light: `${isLight ? 'rgba(51, 51, 51, 0.3)' : "#fafafa"}`,
+      grey: `${isLight ? '#E0E0E0' : 'rgba(250, 250, 250, 0.3)'}`,
+      light: `${isLight ? 'rgba(51, 51, 51, 0.3)' : '#fafafa'}`,
       recipe: '1px solid rgb(112, 112, 112, 0.17)',
-      recipeHover: `${isLight ? 'none' : "1px solid rgb(112, 112, 112, 0.17)"}`,
-      modal: `${isLight ? 'none' : "1px solid #8BAA36"}`,
+      recipeHover: `${isLight ? 'none' : '1px solid rgb(112, 112, 112, 0.17)'}`,
+      modal: `${isLight ? 'none' : '1px solid #8BAA36'}`,
     },
 
-    counter: `${isLight ? '#333333' : "#fafafa"}`,
+    counter: `${isLight ? '#333333' : '#fafafa'}`,
 
     placeholder: {
-      main: `${isLight ? 'rgba(0, 0, 0, 0.5)' : "#fafafa"}`,
-      blured: `${isLight ? 'rgba(0, 0, 0, 0.5)' : "rgba(250, 250, 250, 0.6)"}`,
+      main: `${isLight ? 'rgba(0, 0, 0, 0.5)' : '#fafafa'}`,
+      blured: `${isLight ? 'rgba(0, 0, 0, 0.5)' : 'rgba(250, 250, 250, 0.6)'}`,
     },
 
     input: {
-      background: `${isLight ? '#f5f5f5' : "#2A2C36"}`,
-      line: `${isLight ? '#000000' : "rgba(250, 250, 250, 0.5)"}`,
-      text: `${isLight ? '#23262A' : "#fafafa"}`,
-      border: `${isLight ? 'none' : "1px solid rgba(250, 250, 250, 0.2)"}`,
-      active: `${isLight ? '#8BAA36' : '#FAFAFA'}`, 
-      white: `${isLight ? '#FFFFFF' : 'transparent'}`, 
-      normal: `${isLight ? '#F0F0F0': "rgba(250, 250, 250, 0.5)"}`,
+      background: `${isLight ? '#f5f5f5' : '#2A2C36'}`,
+      line: `${isLight ? '#000000' : 'rgba(250, 250, 250, 0.5)'}`,
+      text: `${isLight ? '#23262A' : '#fafafa'}`,
+      border: `${isLight ? 'none' : '1px solid rgba(250, 250, 250, 0.2)'}`,
+      active: `${isLight ? '#8BAA36' : '#FAFAFA'}`,
+      white: `${isLight ? '#FFFFFF' : 'transparent'}`,
+      normal: `${isLight ? '#F0F0F0' : 'rgba(250, 250, 250, 0.5)'}`,
       focus: `${isLight ? 'rgba(35, 38, 42, 0.2)' : 'rgba(250, 250, 250, 0.5'}`,
       buttonBlack: `${isLight ? '#22252A' : '#8BAA36'}`,
       buttonGreen: '#8BAA36',
@@ -114,7 +120,7 @@ const setTheme = (isLight) => {
       grey: `${isLight ? 'rgba(217, 217, 217, 0.16)' : 'transparent'}`,
       greyHover: 'rgba(217, 217, 217, 0.3)',
       color: `${isLight ? 'rgba(0, 0, 0, 0.5)' : 'rgba(250, 250, 250, 0.5)'}`,
-      list:`${isLight ? '#FAFAFA' : '#8BAA36'}`,
+      list: `${isLight ? '#FAFAFA' : '#8BAA36'}`,
     },
     breakPoints: {
       mobile: '375px',
@@ -123,33 +129,31 @@ const setTheme = (isLight) => {
     },
     hover: {
       transition: '250ms cubic-bezier(0.4, 0, 0.2, 1)',
-      boxShadow: '1px 4px 6px rgba(0, 0, 0, 0.16), 0px 4px 4px rgba(0, 0, 0, 0.06), 0px 1px 1px rgba(0, 0, 0, 0.12)',
+      boxShadow:
+        '1px 4px 6px rgba(0, 0, 0, 0.16), 0px 4px 4px rgba(0, 0, 0, 0.06), 0px 1px 1px rgba(0, 0, 0, 0.12)',
     },
     fontSizes: {
-      xxxs: "10px", //footer-mobile-input
-      xxs: "12px", //mobile-selectors
-      xs: "14px", //footer
-      s: "16px", //footer
-      sm: "18px", //footer
-      m: "24px", // mobile-header
-      l: "28px", //footer, h1-tablet
-      xl: "44px", //h1-desktop,
+      xxxs: '10px', //footer-mobile-input
+      xxs: '12px', //mobile-selectors
+      xs: '14px', //footer
+      s: '16px', //footer
+      sm: '18px', //footer
+      m: '24px', // mobile-header
+      l: '28px', //footer, h1-tablet
+      xl: '44px', //h1-desktop,
     },
     sizes: {
-      mobile: "@media screen and (min-width:374.98px)",
-      tablet: "@media screen and (min-width:767.98px)",
-      desktop: "@media screen and (min-width:1279.98px)",
+      mobile: '@media screen and (min-width:374.98px)',
+      tablet: '@media screen and (min-width:767.98px)',
+      desktop: '@media screen and (min-width:1279.98px)',
     },
-  }
+  };
 };
-
 
 export const Theme = ({ children }) => {
   const isLightTheme = useSelector(selectThemeIsLight);
 
   return (
-    <ThemeProvider theme={setTheme(isLightTheme)}>
-      {children}
-    </ThemeProvider>
+    <ThemeProvider theme={setTheme(isLightTheme)}>{children}</ThemeProvider>
   );
 };
