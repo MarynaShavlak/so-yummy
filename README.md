@@ -1,4 +1,4 @@
-# SoYummy App
+# So Yummy Recipes Application
 
 Application for searching, creating and storing recipes.
 
